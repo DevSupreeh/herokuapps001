@@ -1,38 +1,80 @@
+# Load R packages
 library(shiny)
+library(shinythemes)
 
-# Training set
-TrainSet <- read.csv("training.csv", header = TRUE)
-TrainSet <- TrainSet[,-1]
-
-pageWithSidebar(
-
-  # Page header
-  headerPanel('Iris Predictor'),
-
-  # Input values
-  sidebarPanel(
-    HTML("<h3>Input parameters</h4>"),
-    sliderInput("Sepal.Length", label = "Sepal Length", value = 5.0,
-                min = min(TrainSet$Sepal.Length),
-                max = max(TrainSet$Sepal.Length)
-    ),
-    sliderInput("Sepal.Width", label = "Sepal Width", value = 3.6,
-                min = min(TrainSet$Sepal.Width),
-                max = max(TrainSet$Sepal.Width)),
-    sliderInput("Petal.Length", label = "Petal Length", value = 1.4,
-                min = min(TrainSet$Petal.Length),
-                max = max(TrainSet$Petal.Length)),
-    sliderInput("Petal.Width", label = "Petal Width", value = 0.2,
-                min = min(TrainSet$Petal.Width),
-                max = max(TrainSet$Petal.Width)),
-
-    actionButton("submitbutton", "Submit", class = "btn btn-primary")
-  ),
-
-  mainPanel(
-    tags$label(h3('Status/Output')), # Status/Output Text Box
-    verbatimTextOutput('contents'),
-    tableOutput('tabledata') # Prediction results table
-
-  )
+fluidPage(
+theme = shinytheme("flatly"),
+                navbarPage(
+                  "Shiny Application",
+                  tabPanel("Question 1",
+                           sidebarPanel(
+                             tags$h2("Question 1"),
+                             HTML("<br>Using sirpi_glucose_data.csv, Plot Glucose vs Time graph for the entire dataset.")
+                             
+                             
+                           ), # sidebarPanel
+                           mainPanel(
+                             h1("Output"),
+                             plotOutput(outputId = "Plot1")
+                             
+                           ) # mainPanel
+                  ),
+                  tabPanel("Question 2",
+                           sidebarPanel(
+                             tags$h2("Question 2"),
+                             HTML("<br>For the given dataset (sirpi_glucose_data.csv) plot the Glucose Levels for 1st October")
+                             
+                             
+                           ), # sidebarPanel
+                           mainPanel(
+                             h1("Output"),
+                             plotOutput(outputId = "Plot2")
+                             
+                           ) # mainPanel
+                  ),
+                  tabPanel("Question 3",
+                           sidebarPanel(
+                             tags$h2("Question 3"),
+                             HTML("<br>Calculate the average Glucose Level of the patient for each day in the dataset.")
+                             
+                             
+                           ), # sidebarPanel
+                           mainPanel(
+                             h1("Output"),
+                             dataTableOutput('tabledata')
+                             
+                           ) # mainPanel
+                  ),
+                  tabPanel("Question 4",
+                           sidebarPanel(
+                             tags$h2("Question 4"),
+                             HTML("<br>Using sirpi_iris.csv plot the following graph")
+                             
+                             
+                           ), # sidebarPanel
+                           mainPanel(
+                             h1("Output"),
+                             plotOutput(outputId = "Plot3")
+                             
+                           ) # mainPanel
+                  ),
+                  tabPanel("Question 5",
+                           sidebarPanel(
+                             tags$h2("Question 5"),
+                             HTML("<br>Using kaggle_crime_data_india-2001-2010.csv data plot the following graphs (3 sub parts)")
+                             
+                             
+                           ), # sidebarPanel
+                           mainPanel(
+                             h1("Output"),
+                             fluidRow(
+                               splitLayout(cellWidths = c("50%", "50%"), plotOutput("Plot4a"), plotOutput("Plot4b"))
+                             ),
+                             fluidRow(
+                               plotOutput(outputId = "Plot4c")
+                             )
+                             
+                           ) # mainPanel
+                  )
+                )
 )
